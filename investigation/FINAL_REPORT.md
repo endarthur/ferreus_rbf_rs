@@ -21,7 +21,7 @@
 | **Algorithmic Correctness** | 9.0/10 | ✅ Verified |
 | **Code Quality & Maturity** | 8.5/10 | ✅ Production-Ready |
 | **Literature Match** | 9.0/10 | ✅ Excellent |
-| **Geomodelling Capability** | 7.0/10 | 🟡 Good Foundation |
+| **Geomodelling Capability** | 8.0/10 | ✅ Strong Foundation |
 | **Ecosystem Sustainability** | 6.5/10 | 🟡 Moderate Risk |
 | **OVERALL** | **8.0/10** | ✅ **STRONGLY ENDORSED** |
 
@@ -134,9 +134,9 @@
 
 ---
 
-### Phase 4: Geomodelling Capability 🟡 STRONG FOUNDATION
+### Phase 4: Geomodelling Capability 🟢 STRONG FOUNDATION
 
-**Score:** 7.0 / 10
+**Score:** 8.0 / 10
 
 **What It Does Excellently:**
 
@@ -167,21 +167,25 @@
    - Efficient surface-following
    - **Limitation:** Not guaranteed manifold/watertight
 
-**Critical Gaps vs Leapfrog:**
+**What Works But Needs Documentation:**
 
-1. ❌ **Orientation Constraints** (2/5)
-   - Cannot use dip/strike measurements directly
-   - **Impact:** CRITICAL - limits structural modelling
-   - **Solution:** Well-established in literature (Cowan 2002)
-   - **Effort:** Medium (2-4 weeks)
+1. ✅ **Orientation Constraints** (4/5) 🌟 **WORKS TODAY!**
+   - Can use dip/strike measurements via **off-surface points approach**
+   - Add points above/below contacts to constrain surface orientation
+   - FastRBF scaling makes this practical (no performance penalty)
+   - **Impact:** Unlocks structural modelling NOW
+   - **Effort:** Documentation only (1 day!)
+   - **Note:** We don't know if Leapfrog uses explicit gradients or the same off-surface approach
 
-2. ❌ **Fault Modeling** (2/5)
+**Remaining Gaps vs Leapfrog:**
+
+1. ❌ **Fault Modeling** (2/5)
    - No discontinuity handling
    - **Impact:** CRITICAL for complex geology
    - **Solution:** Domain decomposition + blending
    - **Effort:** High (1-2 months)
 
-3. ❌ **GUI** (0/5)
+2. ❌ **GUI** (0/5)
    - CLI/API only
    - **Impact:** BLOCKER for most geologists
    - **Solution:** Build GUI or integrate with existing tools
@@ -193,7 +197,7 @@
 |---------|----------|-------------|----------|-------------|
 | Core RBF solver | ✓ | ✓ | CRITICAL | ✅ Done |
 | Anisotropy | ✓ | ✓ | HIGH | ✅ Done |
-| Orientation constraints | ✓ | ❌ | **CRITICAL** | ✅ Feasible (4 weeks) |
+| Orientation constraints | ✓ | ✅ | Via off-surface points | ✅ **Works TODAY!** |
 | Fault modeling | ✓ | ❌ | **CRITICAL** | ⚠️ Complex (1-2 months) |
 | Interactive GUI | ✓ | ❌ | **BLOCKER** | ❌ Major (6-12 months) |
 
@@ -202,16 +206,17 @@
 ✅ **Can Do Now:**
 - Grade estimation / resource modeling
 - Geophysical inversions
-- Simple structural surfaces (no faults)
+- **Structural surfaces with orientation data** (via off-surface points!)
+- Simple to moderately complex geology (no faults)
 - Research & algorithm development
 - Backend for other tools (GemPy, LoopStructural)
 
 ❌ **Can't Do Yet:**
 - Complex faulted terrains
-- Multiple lithologies
-- Structural geology with orientation data
+- Multiple lithologies with fault boundaries
 - Interactive modeling workflows
 - Production mine planning (no workflows)
+- True GUI-based modelling
 
 **Verdict:** Provides the hardest part (fast RBF engine) - needs domain features layered on top.
 
@@ -310,7 +315,7 @@ This library provides the **hardest part** of building a Leapfrog alternative:
 
 **The Work Remaining:**
 To become a true Leapfrog alternative needs:
-1. **Orientation constraints** (4 weeks) - CRITICAL
+1. **Document orientation workflow** (1 day!) - Already works via off-surface points!
 2. **Fault modeling** (1-2 months) - CRITICAL
 3. **Manifold surfacing** (2 weeks) - Important
 4. **GUI or tool integration** (3-12 months) - BLOCKER for most users
@@ -363,7 +368,7 @@ To become a true Leapfrog alternative needs:
 | **Kernels** | Linear, Cubic, others | Linear, Cubic, TPS, Spheroidal | ✅ Equivalent |
 | **Anisotropy** | Yes (geological) | Yes (geological) | ✅ Equivalent |
 | **Drift Terms** | Yes | Yes (up to quadratic) | ✅ Equivalent |
-| **Orientation Data** | Yes | **NO** | ❌ **Critical Gap** |
+| **Orientation Data** | Yes | **YES** (via off-surface pts) | ✅ **Works today!** |
 | **Faults** | Yes | **NO** | ❌ **Critical Gap** |
 | **Multiple Lithologies** | Yes | NO | ❌ Gap |
 | **GUI** | Yes (primary interface) | **NO** | ❌ **Blocker** |
@@ -386,7 +391,7 @@ To become a true Leapfrog alternative needs:
 - Niche/academic
 - API/library-first
 
-**Verdict:** ferreus_rbf provides the **algorithmic core** of Leapfrog (FastRBF), but lacks the **domain features** (orientation constraints, faults) and **user interface** (GUI, workflows) that make Leapfrog a complete product.
+**Verdict:** ferreus_rbf provides the **algorithmic core** of Leapfrog (FastRBF) and **can handle orientation data** (via off-surface points), but lacks **fault modeling** and **user interface** (GUI, workflows) that make Leapfrog a complete product.
 
 ---
 
@@ -471,9 +476,9 @@ This library is valuable for:
 - Uncertain roadmap
 
 **Domain:**
-- Missing critical geological features (orientations, faults)
+- Missing fault modeling (critical for complex geology)
 - No workflows for mine planning
-- Limited documentation for geologists
+- Limited documentation for geologists (especially for off-surface points approach)
 
 ---
 
@@ -533,9 +538,9 @@ This library is valuable for:
    - Attract co-maintainers
 
 2. **Quick Wins** (Strategic)
-   - Add orientation constraints (biggest impact for effort)
+   - Document off-surface points workflow for orientations (1 day, huge impact!)
    - Manifold surfacing (professional credibility)
-   - Geological tutorial (attract users)
+   - Geological tutorial with orientation examples (attract users)
 
 3. **Integration** (Leverage)
    - Partner with GemPy or LoopStructural
@@ -602,14 +607,17 @@ This library is valuable for:
    - Add statement to README
    - Set expectations for users
 
-2. **Add Orientation Constraints** (Weeks 2-5)
-   - Biggest impact for effort
-   - Unlocks structural modeling
+2. **Document Orientation Workflow** (Week 1) 🌟
+   - Write tutorial on off-surface points approach
+   - Add worked example with dip/strike data
+   - Biggest impact for MINIMAL effort!
+   - Unlocks structural modeling TODAY
 
-3. **Community Building** (Weeks 6-12)
+3. **Community Building** (Weeks 2-12)
    - CONTRIBUTING.md
    - JOSS paper
    - Conference presentations
+   - Geological tutorials
 
 4. **Find Co-Maintainers** (Ongoing)
    - Critical for long-term sustainability
@@ -641,7 +649,7 @@ This is a rare opportunity. The hard work (FastRBF algorithm) is done. The commu
 | **FastRBF Authenticity** | 9.0/10 | **A** |
 | **Code Quality** | 8.5/10 | **A-** |
 | **Literature Match** | 9.0/10 | **A** |
-| **Geomodelling Capability** | 7.0/10 | **B** |
+| **Geomodelling Capability** | 8.0/10 | **A-** |
 | **Sustainability** | 6.5/10 | **B-** |
 | **OVERALL** | **8.0/10** | **A-** |
 
@@ -675,9 +683,9 @@ This is a rare opportunity. The hard work (FastRBF algorithm) is done. The commu
 ### Weaknesses
 
 ⚠️ **Feature Gaps**
-- No orientation constraints (CRITICAL)
-- No fault modeling (CRITICAL)
-- No GUI (BLOCKER for many)
+- No fault modeling (CRITICAL for complex geology)
+- No GUI (BLOCKER for many geologists)
+- Orientation workflow needs documentation (but works today!)
 
 ⚠️ **Organizational Risk**
 - Single developer (bus factor = 1)
